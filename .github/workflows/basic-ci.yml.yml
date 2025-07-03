@@ -1,0 +1,19 @@
+name: Basic CI
+on: [push, pull_request]
+jobs: # jobs:
+    ci:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v4
+
+            - name: install nodejs
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+
+            - name: install dependencies
+              run: npm ci
+
+            - name: run ci
+              run: npm run ci
