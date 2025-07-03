@@ -20,8 +20,14 @@ jobs: # jobs:
 
             - name: run lint
               uses: npm run lint
+
+    # lint -> build
     build: # job의 이름
         runs-on: ubuntu-latest
+
+        # build job 이전에 lint job이 선행되어야함
+        # 순차적으로 실행이 되어야함
+        needs: lint
         steps: # step 정의
             - name: Checkout Code
               uses: actions/checkout@v4 # action -> 재사용가능한 작업
