@@ -20,7 +20,7 @@ jobs:
                   cache: "npm"
 
             - name: Install dependencies
-              uses: run ci
+              run: run ci
 
             - name: run test
               run: npm test
