@@ -29,9 +29,9 @@ jobs: # jobs:
             JOB_LEVEL_ENV: "job level 환경변수"
         steps:
             - name: Print Environment Variables
-              run: \
-                  echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
-                  echo "Secret ${{ secrets.TEST_SECRETS}} "
+              run: |
+                echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
+                echo "Secret ${{ secrets.TEST_SECRETS}} "
 
     # lint:
     #     runs-on: ubuntu-latest
