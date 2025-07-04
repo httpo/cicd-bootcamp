@@ -1,5 +1,63 @@
 # 워크플로우 -> 자동화 할 작업의 설계서 -> action.yml
 #
+name: Dev To Main PR Workflow
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop] # base: develop <---- feat/*, fix* ...
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Environment Variables
+        run: |
+          echo "Secret ${{secrets.TEST_SECRETS}}"
+
+      - name: Check Out Code
+        uses: actions/checkout@v4
+
+        # 선택사항
+      - name: SetUp Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Deps
+        run: npm ci
+
+      - name: Run Linting
+        run: npm run lint
+
+      - name: Run Test
+        run: npm run test
+
+      - name: Run Build
+        run: npm run build
+
+  create-pr:
+    # 선택 사항
+    name: Create PR To Main
+    needs: lint-test-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codes
+        uses: actions/checkout@v4
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.CICD }}
+          base: main
+          branch: ${{github.ref}} # /head/ref/develop
+          title: ${{github.event.pull_request.title }}
+          body: |
+            ## PR 요약
+            ### 사전 점검 완료
+            - ✅ Linting
+            - ✅ Unit Tests
+            - ✅ Build Process
+
 
 # name: first workflow
 # on: push # 이벤트 트리거
@@ -20,18 +78,18 @@
 #             - name: env test
 #               run: echo "$ {{ env.JOB_LEVEL_ENV }}"
 
-name: first workflow
-on: push # 이벤트 트리거
-jobs: # jobs:
-    lint-test-build:
-        runs-on: ubuntu-latest
-        env:
-            JOB_LEVEL_ENV: "job level 환경변수"
-        steps:
-            - name: Print Environment Variables
-              run: |
-                echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
-                echo "Secret ${{ secrets.TEST_SECRETS}} "
+# name: first workflow
+# on: push # 이벤트 트리거
+# jobs: # jobs:
+#     lint-test-build:
+#         runs-on: ubuntu-latest
+#         env:
+#             JOB_LEVEL_ENV: "job level 환경변수"
+#         steps:
+#             - name: Print Environment Variables
+#               run: |
+#                 echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
+#                 echo "Secret ${{ secrets.TEST_SECRETS}} "
 
     # lint:
     #     runs-on: ubuntu-latest
