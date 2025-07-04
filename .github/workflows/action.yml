@@ -3,16 +3,23 @@
 name: Dev To Main PR Workflow
 on:
   pull_request:
-    types: [closed]
-    branches: [develop] # base: develop <---- feat/*, fix* ...
+    branches:
+      - develop # base: develop <---- feat/*, fix* ...
+    types:
+      - closed
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}
 
     steps:
       - name: Print Environment Variables
         run: |
-          echo "Secret ${{secrets.TEST_SECRETS}}"
+          echo "NEXT_PUBLIC_SUPABASE_URL ${{ env.NEXT_PUBLIC_SUPABASE_URL }}  "
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY ${{ env.NEXT_PUBLIC_SUPABASE_ANON_KEY }}  "
+          echo "Secret ${{secrets.TEST_SECRET}}"
 
       - name: Check Out Code
         uses: actions/checkout@v4
