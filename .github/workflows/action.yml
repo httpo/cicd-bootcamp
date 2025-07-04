@@ -28,11 +28,9 @@ jobs: # jobs:
         env:
             JOB_LEVEL_ENV: "job level 환경변수"
         steps:
-            - name: Print Environment Variables GITHUB_REPOSITORY
-              env:
-                  STEP_LEVEL_ENV: "step level 환경변수"
-              run: echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
-                  echo "STEP_LEVEL_ENV ${{ env.STEP_LEVEL_ENV}} "
+            - name: Print Environment Variables
+              run: ｜
+                  echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
                   echo "Secret ${{ secrets.TEST_SECRET}} "
 
     # lint:
