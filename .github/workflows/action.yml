@@ -22,10 +22,6 @@
 
 name: first workflow
 on: push # 이벤트 트리거
-env:
-    GITHUB_REPOSITORY: ""
-    GITHUB_SHA: ""
-    GITHUB_REF: ""
 jobs: # jobs:
     lint-test-build:
         runs-on: ubuntu-latest
@@ -33,21 +29,11 @@ jobs: # jobs:
             JOB_LEVEL_ENV: "job level 환경변수"
         steps:
             - name: Print Environment Variables GITHUB_REPOSITORY
-              run: echo "$ {{ env.GITHUB_REPOSITORY }}"
-
-            - name: Print Environment Variables GITHUB_SHA
-              run: echo "$ {{ env.GITHUB_SHA }}"
-
-            - name: Print Environment Variables GITHUB_REF
-              run: echo "$ {{ env.GITHUB_REF }}"
-
-            - name: print job env
-              run: echo " $ {{ env.JOB_LEVEL_ENV}} "
-
-            - name: print step env
-              run: echo " $ {{ env.STEP_LEVEL_ENV}} "
               env:
                   STEP_LEVEL_ENV: "step level 환경변수"
+              run: echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
+                  echo "STEP_LEVEL_ENV ${{ env.STEP_LEVEL_ENV}} "
+                  echo "Secret ${{ secrets.TEST_SECRET}} "
 
     # lint:
     #     runs-on: ubuntu-latest
