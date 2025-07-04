@@ -31,7 +31,7 @@ jobs: # jobs:
             - name: Print Environment Variables
               run: \
                   echo "JOB_LEVEL_ENV ${{ env.JOB_LEVEL_ENV}} "
-                  echo "Secret ${{ secrets.TEST_SECRET}} "
+                  echo "Secret ${{ secrets.TEST_SECRETS}} "
 
     # lint:
     #     runs-on: ubuntu-latest
