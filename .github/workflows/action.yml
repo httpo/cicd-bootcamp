@@ -8,17 +8,17 @@ env:
 jobs: # jobs:
     lint-test-build:
         runs-on: ubuntu-latest
-        # env:
-        #     JOB_LEVEL_ENV:"job level 환경변수"
+        env:
+            JOB_LEVEL_ENV: "job level 환경변수"
 
         steps:
             - name: Print Environment Variables
               run: echo "$ {{ env.NEXT_PUBLIC_SUPABASE_URL }}"
-    # print-env:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: env test
-    #           run: echo "$ {{ env.JOB_LEVEL_ENV }}"
+    print-env:
+        runs-on: ubuntu-latest
+        steps:
+            - name: env test
+              run: echo "$ {{ env.JOB_LEVEL_ENV }}"
     # lint:
     #     runs-on: ubuntu-latest
     #     steps:
